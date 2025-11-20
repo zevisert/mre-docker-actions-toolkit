@@ -23,4 +23,7 @@ jobs:
           push: false
           secret-files: |
             sample-license=sample.zip
-
+      - name: Demonstrate changed SHA256 in actions-toolkit temp folder
+        if: always()
+        run: |
+          find ${{ runner.temp }} -wholename '*/docker-actions-toolkit*/*' -exec sha256sum {} \;
