@@ -1,0 +1,21 @@
+name: Minimum Reproducible Example
+
+jobs:
+  build:
+    name: Build Secret Corruption
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Demonstrate SHA256 sum outside build
+        run: |
+          sha256sum sample.zip
+          sha256sum --check <<< '7728f8ac3099aa4045039f5c7d74d7ea54e5f68f43dc9312ab69201a88730c97 *sample.zip'
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          secret-files: |
+            sample-license=sample.zip
+
